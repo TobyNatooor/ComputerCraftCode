@@ -1,47 +1,81 @@
 
+--Place disk drive
+
+turtle.forward()
+turtle.select(3)
+turtle.placeUp()
+turtle.select(4)
+turtle.dropUp()
+turtle.back()
+
+--Get turtles in formation
+
 rednet.open("left")
-id, turtleNum = rednet.receive()
-
-while turtle.getItemDetail() == false do
+for i = 1, 4 do
+    turtle.select(1)
+    turtle.place()
+    peripheral.call("front", "turnOn")
+    turtle.select(2)
+    turtle.drop(4)
+    rednet.broadcast(5 - i)    
+    sleep(3)
 end
 
-turtle.refuel()
+rednet.broadcast("go")
 
-turtle.turnRight()
-for i = 1, (turtleNum - 1) do
-    turtle.forward()
-    turtle.turnRight()
-    turtle.forward()
-end
 
-id, message = rednet.receive()
-while message ~= "go" do
-    id, message = rednet.receive()
-end 
+--Dig down!
 
-print("start fuel level: " .. turtle.getFuelLevel())
-succes, block, fail = turtle.inspectDown()
 blocksGoneDown = 0
+succes, block, fail = turtle.inspectDown()
 
 while(block.name ~= "minecraft:bedrock") do
-    blocksGoneDown = blocksGoneDown + 1
     turtle.digDown()
     turtle.down()
-    turtle.dig()
-    succes, block, fail = turtle.inspectDown() 
+    succes, block, fail = turtle.inspectDown()
+    blocksGoneDown = blocksGoneDown + 1
 end
 
 for i = 1, blocksGoneDown do
     turtle.up()
 end
 
-print("end fuel level: " .. turtle.getFuelLevel())
+turtlesBack = {
+false,
+false,
+false,
+false
+}
 
-rednet.send(id, turtleNum)
-
-for i = 1, (turtleNum - 1) do
-    sleep(6)
-    turtle.back()
-    turtle.turnLeft()
-    turtle.back()
+while(turtlesBack[1] == false and turtlesBack[2] == false and turtlesBack[3] == false and turtlesBack[4] == false) do
+    id, i = rednet.receive()
+    turtlesBack[i] = true
 end
+
+turtle.select(5)
+turtle.placeUp()
+
+function storeInventory()
+    for i = 1, 16 do
+        turtle.select(i)
+        turtle.dropUp()
+    end
+end
+
+sleep(2)
+rednet.broadcast("come back")
+
+for i = 1, 4 do
+    while(turtle.inspect() == false) do
+    end
+    turtle.dig()
+    storeInventory()
+end
+
+sleep(1)
+turtle.forward()
+turtle.digUp()
+turtle.back()
+storeInventory()
+
+print("done")
