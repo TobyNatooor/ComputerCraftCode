@@ -1,7 +1,7 @@
 
 ws = http.websocket("ws://localhost:8080/")
 isBlock, blockData = turtle.inspectDown()
-print(blockData.name, {x = 0, y = -1, z = 0})
+ws.send(blockData.name, {x = 0, y = -1, z = 0})
 
 while true do
     movement = ws.receive()
