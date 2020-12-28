@@ -32,6 +32,7 @@ for i = 1, NumOfTurtles do
     sleep(1)
 end
 
+sleep(3)
 rednet.broadcast("go")
 
 --Dig down!
