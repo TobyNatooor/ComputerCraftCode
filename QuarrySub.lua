@@ -1,11 +1,11 @@
 
+--wait for signal to get into position
+
 rednet.open("left")
-id, turtleNum = rednet.receive()
-
-while turtle.getItemDetail() == false do
-end
-
+mainTurtleId, turtleNum = rednet.receive()
 turtle.refuel()
+
+--get into position
 
 turtle.turnRight()
 for i = 1, (turtleNum - 1) do
@@ -14,30 +14,35 @@ for i = 1, (turtleNum - 1) do
     turtle.forward()
 end
 
-id, message = rednet.receive()
+--wait for signal to mine
+
+message = 0
 while message ~= "go" do
-    id, message = rednet.receive()
+    mainTurtleId, message = rednet.receive()
 end 
 
-print("start fuel level: " .. turtle.getFuelLevel())
-succes, block, fail = turtle.inspectDown()
+--mine down and detect bedrock
+
 blocksGoneDown = 0
+succes, block = turtle.inspectDown()
 
 while(block.name ~= "minecraft:bedrock") do
     blocksGoneDown = blocksGoneDown + 1
     turtle.digDown()
     turtle.down()
     turtle.dig()
-    succes, block, fail = turtle.inspectDown() 
+    succes, block = turtle.inspectDown() 
 end
+
+--go back up
 
 for i = 1, blocksGoneDown do
     turtle.up()
 end
 
-print("end fuel level: " .. turtle.getFuelLevel())
+--go back to being one turtle
 
-rednet.send(id, turtleNum)
+rednet.send(mainTurtleId, turtleNum)
 
 for i = 1, (turtleNum - 1) do
     sleep(6)

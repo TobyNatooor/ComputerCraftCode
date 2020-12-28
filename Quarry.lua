@@ -1,4 +1,12 @@
 
+--instructions
+
+print("slot 1: mining turtles")
+print("slot 2: fuel")
+print("slot 3: disk drive")
+print("slot 4: floppy disk")
+print("slot 5: storage")
+
 --Place disk drive
 
 turtle.forward()
@@ -10,35 +18,38 @@ turtle.back()
 
 --Get turtles in formation
 
+NumOfTurtles = 4
+
 rednet.open("left")
-for i = 1, 4 do
+for i = 1, NumOfTurtles do
     turtle.select(1)
     turtle.place()
     peripheral.call("front", "turnOn")
     turtle.select(2)
     turtle.drop(4)
-    rednet.broadcast(5 - i)    
+    rednet.broadcast((NumOfTurtles - 1) - i)    
     sleep(3)
 end
 
 rednet.broadcast("go")
 
-
 --Dig down!
 
 blocksGoneDown = 0
-succes, block, fail = turtle.inspectDown()
+succes, block = turtle.inspectDown()
 
 while(block.name ~= "minecraft:bedrock") do
     turtle.digDown()
     turtle.down()
-    succes, block, fail = turtle.inspectDown()
+    succes, block = turtle.inspectDown()
     blocksGoneDown = blocksGoneDown + 1
 end
 
 for i = 1, blocksGoneDown do
     turtle.up()
 end
+
+--wait for turtles to come back
 
 turtlesBack = {
 false,
@@ -52,6 +63,8 @@ while(turtlesBack[1] == false and turtlesBack[2] == false and turtlesBack[3] == 
     turtlesBack[i] = true
 end
 
+--store mined items
+
 turtle.select(5)
 turtle.placeUp()
 
@@ -62,8 +75,12 @@ function storeInventory()
     end
 end
 
+--signal for the other turtles to come back
+
 sleep(2)
 rednet.broadcast("come back")
+
+--mine the turtles
 
 for i = 1, 4 do
     while(turtle.inspect() == false) do
@@ -72,7 +89,8 @@ for i = 1, 4 do
     storeInventory()
 end
 
-sleep(1)
+--mine the disk drive
+
 turtle.forward()
 turtle.digUp()
 turtle.back()
