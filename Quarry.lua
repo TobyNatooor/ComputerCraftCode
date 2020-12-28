@@ -21,15 +21,14 @@ NumOfTurtles = 4
 rednet.open("left")
 
 for i = 1, NumOfTurtles do
+    while turtle.detect() == true do
+    end
     turtle.select(1)
     turtle.place()
     peripheral.call("front", "turnOn")
     turtle.select(2)
     turtle.drop(4)
     rednet.broadcast((NumOfTurtles + 1) - i)    
-    while turtle.detect() == true do
-    end
-    sleep(1)
 end
 
 sleep(3)
