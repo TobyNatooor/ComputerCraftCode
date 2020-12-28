@@ -18,8 +18,8 @@ turtle.back()
 --Get turtles in formation
 
 NumOfTurtles = 4
-
 rednet.open("left")
+
 for i = 1, NumOfTurtles do
     turtle.select(1)
     turtle.place()
@@ -27,7 +27,9 @@ for i = 1, NumOfTurtles do
     turtle.select(2)
     turtle.drop(4)
     rednet.broadcast((NumOfTurtles + 1) - i)    
-    sleep(3)
+    while turtle.detect() == true do
+    end
+    sleep(1)
 end
 
 rednet.broadcast("go")
@@ -76,16 +78,16 @@ end
 
 --signal for the other turtles to come back
 
-sleep(2)
 rednet.broadcast("come back")
 
 --mine the turtles
 
-for i = 1, 4 do
+for i = 1, NumOfTurtles do
     while(turtle.inspect() == false) do
     end
     turtle.dig()
     storeInventory()
+    rednet.broadcast("come back")
 end
 
 --mine the disk drive

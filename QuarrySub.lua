@@ -45,7 +45,7 @@ end
 rednet.send(mainTurtleId, turtleNum)
 
 for i = 1, (turtleNum - 1) do
-    sleep(6)
+    rednet.receive()
     turtle.back()
     turtle.turnLeft()
     turtle.back()
