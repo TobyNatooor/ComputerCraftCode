@@ -5,9 +5,13 @@ ws.send("From turtle: " .. blockData.name .. ' ' .. 0 ..' ' .. -1 ..' ' .. 0)
 
 while true do
     movement = ws.receive()
-    movement = string.gsub(movement, "This message was recieved: ", "")
-    print(movement)
-    
+    if string.match(movement, "This message was recieved: ") then
+        movement = string.gsub(movement, "This message was recieved: ", "")
+    end
+    if type(movement) == string then
+        print(movement)
+    end
+
     if movement == "Up" then
         turtle.up()
     elseif movement == "Forward" then
@@ -25,7 +29,7 @@ while true do
     elseif movement == "Dig" then
         turtle.dig()
     else
-        print("I don't don't recognise that command") 
+        print("I don't recognise that command") 
     end
 end
 
