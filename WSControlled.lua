@@ -26,5 +26,12 @@ while true do
     if movement == "Down" then
         turtle.down()
     end
+
+    if movement == "Refuel" then
+        turtle.refuel()
+    end
+    if movement == "Dig" then
+        turtle.dig()
+    end
 end
 
