@@ -1,11 +1,10 @@
 
 --instructions
-
-print("slot 1: mining turtles")
-print("slot 2: fuel")
-print("slot 3: disk drive")
-print("slot 4: floppy disk")
-print("slot 5: storage")
+--slot 1: mining turtles
+--slot 2: fuel
+--slot 3: disk drive
+--slot 4: floppy disk
+--slot 5: storage
 
 --Place disk drive
 
@@ -27,7 +26,7 @@ for i = 1, NumOfTurtles do
     peripheral.call("front", "turnOn")
     turtle.select(2)
     turtle.drop(4)
-    rednet.broadcast((NumOfTurtles - 1) - i)    
+    rednet.broadcast((NumOfTurtles + 1) - i)    
     sleep(3)
 end
 
