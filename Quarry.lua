@@ -76,14 +76,10 @@ function storeInventory()
     end
 end
 
---signal for the other turtles to come back
-
-rednet.broadcast("come back")
-
 --mine the turtles
 
 for i = 1, NumOfTurtles do
-    while(turtle.inspect() == false) do
+    while turtle.detect() == false do    
     end
     turtle.dig()
     storeInventory()
