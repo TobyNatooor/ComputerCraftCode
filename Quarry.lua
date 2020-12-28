@@ -78,6 +78,7 @@ end
 
 --mine the turtles
 
+storeInventory()
 for i = 1, NumOfTurtles do
     while turtle.detect() == false do    
     end
