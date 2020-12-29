@@ -80,7 +80,9 @@ while true do
         print(coord.x .. ' ' .. coord.y .. ' ' .. coord.z)
 
         isThereBlock, blockData = turtle.inspectDown()
-        ws.send("From turtle: " .. blockData.name .. ' ' .. coord.x .. ' ' .. (coord.y - 1) .. ' ' .. coord.z)
+        if isThereBlock then
+            ws.send("From turtle: " .. blockData.name .. ' ' .. coord.x .. ' ' .. (coord.y - 1) .. ' ' .. coord.z)
+        end
     else
         print(type(movement))
     end
