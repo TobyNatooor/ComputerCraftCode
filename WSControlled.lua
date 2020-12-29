@@ -10,7 +10,7 @@ while true do
     if string.match(movement, "From control panel: ") then
         movement = string.gsub(movement, "From control panel: ", "")
     end
-    if type(movement) == string then
+    if type(movement) == 'string' then
         print(movement)
         if movement == "Up" then
             turtle.up()
@@ -40,6 +40,8 @@ while true do
             print("I don't recognise that command") 
         end
         print(coord)
+    else
+        print(type(movement))
     end
 end
 
