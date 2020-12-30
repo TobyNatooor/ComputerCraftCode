@@ -17,6 +17,7 @@ function sendCoordAndBlockDetails()
     blockUp = getBlock(turtle.inspectUp)
     blockForward = getBlock(turtle.inspect)
     blockDown = getBlock(turtle.inspectDown)
+    fuelLevel = turtle.getFuelLevel()
 
     ws.send(
         "From turtle: "
@@ -29,14 +30,16 @@ function sendCoordAndBlockDetails()
                 '"z" :'  
                 .. coord.z
             .. '},' ..
-            '"blocks": { ' ..
+                '"blocks": { ' ..
                 '"Up" :'  
                 .. '"' .. blockUp .. '"' .. ',' ..
                 '"Forward" :'  
                 .. '"' .. blockForward .. '"' .. ',' ..
                 '"Down" :'  
                 .. '"' .. blockDown .. '"'
-            .. '}' ..
+            .. '},' ..
+            '"direction":' .. turn .. ',' ..
+            '"fuelLevel":' .. fuelLevel ..
         '}'
     )
 end
