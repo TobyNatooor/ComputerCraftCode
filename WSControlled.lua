@@ -118,10 +118,8 @@ while true do
         else
             print("I don't recognise that command") 
         end
-        if movement ~= "Left" or movement ~= "Right"
-            print(coord.x .. ' ' .. coord.y .. ' ' .. coord.z)
-            sendCoordAndBlockDetails()
-        end
+        print(coord.x .. ' ' .. coord.y .. ' ' .. coord.z)
+        sendCoordAndBlockDetails()
     else
         print("Either the turtle doesn't have fuel or this type: " .. type(movement) .. 'isnt == "string"')
     end
