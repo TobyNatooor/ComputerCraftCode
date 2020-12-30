@@ -53,7 +53,7 @@ while true do
     if type(movement) == 'string' and turtle.getFuelLevel() >= 0 then
         print(movement)
 
-        elseif movement == "Left" then
+        if movement == "Left" then
             turtle.turnLeft()
             if turn == "forward" then
                 turn = "left"
@@ -77,7 +77,7 @@ while true do
                 turn = "left"
             end
 
-        if movement == "Up" then
+        elseif movement == "Up" then
             if turtle.detectUp() then turtle.digUp() end
             turtle.up()
             coord.y = coord.y + 1
