@@ -52,37 +52,6 @@ while true do
     end 
     if type(movement) == 'string' and turtle.getFuelLevel() >= 0 then
         print(movement)
-        if movement == "Up" then
-            turtle.up()
-            coord.y = coord.y + 1
-
-        elseif movement == "Down" then
-            turtle.down()
-            coord.y = coord.y - 1
-
-        elseif movement == "Forward" then
-            turtle.forward()
-            if turn == "forward" then
-                coord.x = coord.x + 1
-            elseif turn == "left" then
-                coord.z = coord.z - 1
-            elseif turn == "right" then
-                coord.z = coord.z + 1
-            elseif turn == "back" then
-                coord.x = coord.x - 1
-            end
-
-        elseif movement == "Back" then
-            turtle.back()
-            if turn == "forward" then
-                coord.x = coord.x - 1
-            elseif turn == "left" then
-                coord.z = coord.z + 1
-            elseif turn == "right" then
-                coord.z = coord.z - 1
-            elseif turn == "back" then
-                coord.x = coord.x + 1
-            end
 
         elseif movement == "Left" then
             turtle.turnLeft()
@@ -108,10 +77,43 @@ while true do
                 turn = "left"
             end
 
+        if movement == "Up" then
+            if turtle.detectUp() then turtle.digUp() end
+            turtle.up()
+            coord.y = coord.y + 1
+
+        elseif movement == "Down" then
+            if turtle.detectDown() then turtle.digDown() end
+            turtle.down()
+            coord.y = coord.y - 1
+
+        elseif movement == "Forward" then
+            if turtle.detect() then turtle.dig() end
+            turtle.forward()
+            if turn == "forward" then
+                coord.x = coord.x + 1
+            elseif turn == "left" then
+                coord.z = coord.z - 1
+            elseif turn == "right" then
+                coord.z = coord.z + 1
+            elseif turn == "back" then
+                coord.x = coord.x - 1
+            end
+
+        elseif movement == "Back" then
+            turtle.back()
+            if turn == "forward" then
+                coord.x = coord.x - 1
+            elseif turn == "left" then
+                coord.z = coord.z + 1
+            elseif turn == "right" then
+                coord.z = coord.z - 1
+            elseif turn == "back" then
+                coord.x = coord.x + 1
+            end
+
         elseif movement == "Refuel" then
             turtle.refuel()
-        elseif movement == "Dig" then
-            turtle.dig()
 
         else
             print("I don't recognise that command") 
