@@ -38,7 +38,7 @@ function sendCoordAndBlockDetails()
                 '"Down" :'  
                 .. '"' .. blockDown .. '"'
             .. '},' ..
-            '"direction":' .. turn .. ',' ..
+            '"direction":' .. '"' .. turn .. '"' .. ',' ..
             '"fuelLevel":' .. fuelLevel ..
         '}'
     )
