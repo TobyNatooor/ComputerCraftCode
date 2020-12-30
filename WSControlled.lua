@@ -3,14 +3,53 @@ ws = http.websocket("ws://localhost:8080/")
 coord = {x = 0, y = 0, z = 0}
 turn = "forward"
 
-isThereBlock, blockData = turtle.inspectDown()
-ws.send("From turtle: " .. blockData.name .. ' ' .. 0 ..' ' .. -1 ..' ' .. 0)
+function getBlock(inspectDirection)
+    isThereBlock, block = inspectDirection()
+    if isThereBlock == false then
+        return "air"
+    else
+        --blockName = string.gsub(block.name, ":", "")
+        return block.name
+    end
+end
+
+function sendCoordAndBlockDetails()
+    blockUp = getBlock(turtle.inspectUp)
+    blockForward = getBlock(turtle.inspect)
+    blockDown = getBlock(turtle.inspectDown)
+
+    ws.send(
+        "From turtle: "
+            .. '{' .. 
+                '"coord": { ' ..
+                '"x" :' 
+                .. coord.x .. ',' ..
+                '"y" :'  
+                .. coord.y .. ',' ..
+                '"z" :'  
+                .. coord.z
+            .. '},' ..
+            '"blocks": { ' ..
+                '"Up" :'  
+                .. '"' .. blockUp .. '"' .. ',' ..
+                '"Forward" :'  
+                .. '"' .. blockForward .. '"' .. ',' ..
+                '"Down" :'  
+                .. '"' .. blockDown .. '"'
+            .. '}' ..
+        '}'
+    )
+end
+
+sendCoordAndBlockDetails()
 
 while true do
     movement = ws.receive()
-    if string.match(movement, "From control panel: ") then
-        movement = string.gsub(movement, "From control panel: ", "")
-    end
+    if type(movement) == 'string' then
+        if string.match(movement, "From control panel: ") then
+            movement = string.gsub(movement, "From control panel: ", "")
+        end
+    end 
     if type(movement) == 'string' and turtle.getFuelLevel() >= 0 then
         print(movement)
         if movement == "Up" then
@@ -78,11 +117,7 @@ while true do
             print("I don't recognise that command") 
         end
         print(coord.x .. ' ' .. coord.y .. ' ' .. coord.z)
-
-        isThereBlock, blockData = turtle.inspectDown()
-        if isThereBlock then
-            ws.send("From turtle: " .. blockData.name .. ' ' .. coord.x .. ' ' .. (coord.y - 1) .. ' ' .. coord.z)
-        end
+        sendCoordAndBlockDetails()
     else
         print(type(movement))
     end
