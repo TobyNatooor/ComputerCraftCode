@@ -8,7 +8,6 @@ function getBlock(inspectDirection)
     if isThereBlock == false then
         return "air"
     else
-        --blockName = string.gsub(block.name, ":", "")
         return block.name
     end
 end
@@ -82,37 +81,41 @@ while true do
 
         elseif movement == "Up" then
             if turtle.detectUp() then turtle.digUp() end
-            turtle.up()
-            coord.y = coord.y + 1
-
+            if turtle.up() then
+                coord.y = coord.y + 1
+            end
+            
         elseif movement == "Down" then
             if turtle.detectDown() then turtle.digDown() end
-            turtle.down()
-            coord.y = coord.y - 1
+            if turtle.down() then
+                coord.y = coord.y - 1
+            end
 
         elseif movement == "Forward" then
             if turtle.detect() then turtle.dig() end
-            turtle.forward()
-            if turn == "forward" then
-                coord.x = coord.x + 1
-            elseif turn == "left" then
-                coord.z = coord.z - 1
-            elseif turn == "right" then
-                coord.z = coord.z + 1
-            elseif turn == "back" then
-                coord.x = coord.x - 1
+            if turtle.forward() then
+                if turn == "forward" then
+                    coord.x = coord.x + 1
+                elseif turn == "left" then
+                    coord.z = coord.z - 1
+                elseif turn == "right" then
+                    coord.z = coord.z + 1
+                elseif turn == "back" then
+                    coord.x = coord.x - 1
+                end
             end
 
         elseif movement == "Back" then
-            turtle.back()
-            if turn == "forward" then
-                coord.x = coord.x - 1
-            elseif turn == "left" then
-                coord.z = coord.z + 1
-            elseif turn == "right" then
-                coord.z = coord.z - 1
-            elseif turn == "back" then
-                coord.x = coord.x + 1
+            if turtle.back() then
+                if turn == "forward" then
+                    coord.x = coord.x - 1
+                elseif turn == "left" then
+                    coord.z = coord.z + 1
+                elseif turn == "right" then
+                    coord.z = coord.z - 1
+                elseif turn == "back" then
+                    coord.x = coord.x + 1
+                end
             end
 
         elseif movement == "Refuel" then
